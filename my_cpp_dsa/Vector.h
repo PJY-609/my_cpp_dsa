@@ -31,7 +31,9 @@ public:
 	int capacity() const { return _capacity; }
 	bool empty() const { return !_size; }
 
-
+	T& operator[] (Rank r);
+	const T& operator[] (Rank r) const;
+	Vector<T>& operator= (Vector<T> const &);
 	
 };
 
