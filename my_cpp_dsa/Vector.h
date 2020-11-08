@@ -34,6 +34,23 @@ public:
 	T& operator[] (Rank r);
 	const T& operator[] (Rank r) const;
 	Vector<T>& operator= (Vector<T> const &);
+
+	// find elem in random vector
+	Rank find(T const &e, Rank lo, Rank hi) const;
+	Rank find(T const &e) const { return find(e, 0, _size); }
+
+	//search elem in ordered vector
+	Rank binSearch1(T const &e, Rank lo, Rank hi) const;
+	Rank binSearch1(T const &e) const 
+	{ return (0 >= _size) ? -1 : binSearch1(e, 0, _size); }
+	Rank binSearch2(T const &e, Rank lo, Rank hi) const;
+	Rank binSearch2(T const &e) const 
+	{ return (0 >= _size) ? -1 : binSearch2(e, 0, _size); }
+	Rank binSearch3(T const &e, Rank lo, Rank hi) const;
+	Rank binSearch3(T const &e) const
+	{ return (0 >= _size) ? -1 : binSearch3(e, 0, _size); }
+
+
 	
 };
 
