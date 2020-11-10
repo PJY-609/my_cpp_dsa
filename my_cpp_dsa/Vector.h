@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Fib.h"
 
 #define DEFAULT_CAPACITY 3
 typedef int Rank;
@@ -36,10 +37,12 @@ public:
 	Vector<T>& operator= (Vector<T> const &);
 
 	// find elem in random vector
+	// linear find: O(n)
 	Rank find(T const &e, Rank lo, Rank hi) const;
 	Rank find(T const &e) const { return find(e, 0, _size); }
 
 	//search elem in ordered vector
+	// binary search: O(logn)
 	Rank binSearch1(T const &e, Rank lo, Rank hi) const;
 	Rank binSearch1(T const &e) const 
 	{ return (0 >= _size) ? -1 : binSearch1(e, 0, _size); }
@@ -49,8 +52,16 @@ public:
 	Rank binSearch3(T const &e, Rank lo, Rank hi) const;
 	Rank binSearch3(T const &e) const
 	{ return (0 >= _size) ? -1 : binSearch3(e, 0, _size); }
-
-
+	// fib search: O(logn)
+	// https://stackoverflow.com/questions/4247111/is-golden-section-search-better-than-binary-search
+	// https://stackoverflow.com/questions/22877763/is-fibonacci-search-faster-than-binary-search
+	Rank fibSearch1(T const &e, Rank lo, Rank hi) const;
+	Rank fibSearch1(T const &e) const 
+	{ return (0 >= _size) ? -1 : fibSearch1(e, 0, _size); }
+	Rank fibSearch2(T const &e, Rank lo, Rank hi) const;
+	Rank fibSearch2(T const &e) const
+	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
+	
 	
 };
 

@@ -80,4 +80,29 @@ Rank Vector<T>::binSearch3(T const &e, Rank lo, Rank hi) const {
 		(e < _elem[mi]) ? hi = mi : lo = mi + 1;
 	}
 	return lo - 1;
-} // cnat find the max Rank if multiple vals exist
+} // can find the max Rank if multiple vals exist
+
+template <typename T>
+Rank Vector<T>::fibSearch1(T const &e, Rank lo, Rank hi) const {
+	Fib fib(hi - lo);
+	while (lo < hi) {
+		while ((hi - lo) < fib.get()) fib.prev();
+		Rank mi = lo + fib.get() - 1;
+		if (e < _elem[mi]) hi = mi;
+		else if (_elem[mi] < e) lo = mi + 1;
+		else return mi;
+	}
+	return -1;
+} // can't find the max Rank if multiple vals exist
+
+
+template <typename T>
+Rank Vector<T>::fibSearch2(T const &e, Rank lo, Rank hi) const {
+	Fib fib(hi - lo);
+	while (lo < hi) {
+		while ((hi - lo) < fib.get()) fib.prev();
+		Rank mi = lo + fib.get() - 1;
+		(e < _elem[mi]) ? hi = mi : lo = mi + 1;
+	}
+	return lo - 1;
+} // can find the max Rank if multiple vals exist
