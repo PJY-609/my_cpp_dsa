@@ -9,7 +9,6 @@ void Vector<T>::expand() {
 	_elem = new T[_capacity <<= 1]; // double capacify strategy
 	for (int i = 0; i < _size; i++)
 		_elem[i] = oldElem[i];
-	delete[] oldElem;
 }
 
 template <typename T>
@@ -23,7 +22,6 @@ void Vector<T>::shrink() {
 	for (int i = 0; i < _size; i++)
 		_elem[i] = oldElem[i];
 
-	delete[] oldElem;
 }
 
 template <typename T>
@@ -106,3 +104,32 @@ Rank Vector<T>::fibSearch2(T const &e, Rank lo, Rank hi) const {
 	}
 	return lo - 1;
 } // can find the max Rank if multiple vals exist
+
+template <typename T>
+Rank Vector<T>::insert(T const &e, Rank r) {
+	if (r >= _size || r < 0) return -1;
+	expand();
+	for (int i = _size; i > r; i--)
+		_elem[i] = _elem[i - 1];
+	_elem[r] = e;
+	_size++;
+	return r;
+}
+
+template <typename T>
+T Vector<T>::remove(Rank r) {
+	T e = _elem[r];
+	remove(r, r + 1);
+	return e;
+}
+
+template <typename T>
+int Vector<T>::remove(Rank lo, Rank hi) {
+	if (lo == hi) return 0;
+	Rank interval = (hi - lo);
+	for (int i = lo; i < hi; i++)
+		_elem[i] = _elem[i + interval];
+	_size -= hi - lo;
+	shrink();
+	return hi - lo;
+}

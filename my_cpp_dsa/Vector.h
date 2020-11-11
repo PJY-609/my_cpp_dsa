@@ -27,11 +27,12 @@ public:
 
 	~Vector() { delete[] _elem; }
 
-	//read only
+	// read only accessor
 	Rank size() const { return _size; }
 	int capacity() const { return _capacity; }
 	bool empty() const { return !_size; }
 
+	// operator
 	T& operator[] (Rank r);
 	const T& operator[] (Rank r) const;
 	Vector<T>& operator= (Vector<T> const &);
@@ -41,7 +42,7 @@ public:
 	Rank find(T const &e, Rank lo, Rank hi) const;
 	Rank find(T const &e) const { return find(e, 0, _size); }
 
-	//search elem in ordered vector
+	// search elem in ordered vector
 	// binary search: O(logn)
 	Rank binSearch1(T const &e, Rank lo, Rank hi) const;
 	Rank binSearch1(T const &e) const 
@@ -61,6 +62,12 @@ public:
 	Rank fibSearch2(T const &e, Rank lo, Rank hi) const;
 	Rank fibSearch2(T const &e) const
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
+
+	Rank insert(T const &e, Rank r);
+	Rank insert(T const &e) { return insert(e, _size); }
+
+	T remove(Rank r);
+	int remove(Rank lo, Rank hi);
 	
 	
 };
