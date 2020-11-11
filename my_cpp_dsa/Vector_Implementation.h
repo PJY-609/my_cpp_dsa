@@ -9,6 +9,7 @@ void Vector<T>::expand() {
 	_elem = new T[_capacity <<= 1]; // double capacify strategy
 	for (int i = 0; i < _size; i++)
 		_elem[i] = oldElem[i];
+	delete [] oldElem;
 }
 
 template <typename T>
@@ -22,6 +23,7 @@ void Vector<T>::shrink() {
 	for (int i = 0; i < _size; i++)
 		_elem[i] = oldElem[i];
 
+	delete [] oldElem;
 }
 
 template <typename T>
@@ -132,4 +134,30 @@ int Vector<T>::remove(Rank lo, Rank hi) {
 	_size -= hi - lo;
 	shrink();
 	return hi - lo;
+}
+
+template <typename T>
+int Vector<T>::deduplicate1() {
+	int oldSize = _size;
+	int i = 0;
+	while (i < _size - 1) {
+		int j = i + 1;
+		while (j < _size) {
+			if (_elem[i] == _elem[j]) remove(j);
+			else j++;
+		}
+		i++;
+	}
+	return oldSize - _size;
+}
+
+template <typename T>
+int Vector<T>::deduplicate2() {
+	int oldSize = _size;
+	int i = 1;
+	while (i < _size) {
+		if (find(_elem[i], 0, i) < 0) i++; // Find the same val in previous elems. Would find only one at most.
+		else remove(i);
+	}
+	return oldSize - _size;
 }

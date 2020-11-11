@@ -69,6 +69,9 @@ public:
 	T remove(Rank r);
 	int remove(Rank lo, Rank hi);
 	
+	// deduplicate random vector
+	int deduplicate1();
+	int deduplicate2(); // more efficient
 	
 };
 
