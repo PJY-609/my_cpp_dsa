@@ -64,7 +64,7 @@ public:
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
 
 	Rank insert(T const &e, Rank r);
-	Rank insert(T const &e) { return insert(e, _size - 1); }
+	Rank insert(T const &e) { return insert(e, _size); }
 
 	T remove(Rank r);
 	int remove(Rank lo, Rank hi);

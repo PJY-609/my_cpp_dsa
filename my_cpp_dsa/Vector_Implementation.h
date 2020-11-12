@@ -109,7 +109,7 @@ Rank Vector<T>::fibSearch2(T const &e, Rank lo, Rank hi) const {
 
 template <typename T>
 Rank Vector<T>::insert(T const &e, Rank r) {
-	if (r >= _size || r < 0) return -1;
+	if (r > _size || r < 0) return -1;
 	expand();
 	for (int i = _size; i > r; i--)
 		_elem[i] = _elem[i - 1];
