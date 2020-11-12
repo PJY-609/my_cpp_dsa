@@ -64,7 +64,7 @@ public:
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
 
 	Rank insert(T const &e, Rank r);
-	Rank insert(T const &e) { return insert(e, _size); }
+	Rank insert(T const &e) { return insert(e, _size - 1); }
 
 	T remove(Rank r);
 	int remove(Rank lo, Rank hi);
@@ -72,6 +72,10 @@ public:
 	// deduplicate random vector
 	int deduplicate1();
 	int deduplicate2(); // more efficient
+
+	// uniquify ordered vector
+	int uniquify1();
+	int uniquify2(); // more efficient
 	
 };
 

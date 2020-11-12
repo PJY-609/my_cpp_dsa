@@ -142,12 +142,11 @@ int Vector<T>::deduplicate1() {
 	int i = 0;
 	while (i < _size - 1) {
 		int j = i + 1;
-		while (j < _size) {
-			if (_elem[i] == _elem[j]) remove(j);
-			else j++;
-		}
+		while (j < _size)
+			(_elem[i] == _elem[j]) ? remove(j) : j++;
 		i++;
 	}
+	shrink();
 	return oldSize - _size;
 }
 
@@ -155,9 +154,31 @@ template <typename T>
 int Vector<T>::deduplicate2() {
 	int oldSize = _size;
 	int i = 1;
-	while (i < _size) {
-		if (find(_elem[i], 0, i) < 0) i++; // Find the same val in previous elems. Would find only one at most.
-		else remove(i);
-	}
+	while (i < _size)
+		// Find the same val in previous elems. Would find only one at most.
+		(find(_elem[i], 0, i) < 0) ? i++ : remove(i);
+	shrink();
 	return oldSize - _size;
+}
+
+template <typename T>
+int Vector<T>::uniquify1() {
+	int oldSize = _size;
+	int i = 1;
+	while (i < _size)
+		(_elem[i - 1] == _elem[i]) ? remove(i) : i++;
+	shrink();
+	return oldSize - _size;
+}
+
+template <typename T>
+int Vector<T>::uniquify2() {
+	int i = 0, j = 0;
+	while (++j < _size) {
+		if (_elem[i] != _elem[j])
+			_elem[++i] = _elem[j];
+	}
+	_size = ++i;
+	shrink();
+	return j - i;
 }
