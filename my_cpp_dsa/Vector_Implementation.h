@@ -182,3 +182,45 @@ int Vector<T>::uniquify2() {
 	shrink();
 	return j - i;
 }
+
+template <typename T>
+void Vector<T>::bubbleSort1(Rank lo, Rank hi) {
+	while (lo < hi--)
+		for (int i = lo; i < hi; i++)
+			if (_elem[i] > _elem[i + 1])
+				std::swap(_elem[i], _elem[i + 1]);
+}
+
+template <typename T>
+void Vector<T>::bubbleSort2(Rank lo, Rank hi) {
+	for (bool sorted = false; sorted = !sorted; ) {
+		for (int i = lo; i < hi - 1; i++) {
+			if (_elem[i] > _elem[i + 1]) {
+				std::swap(_elem[i], _elem[i + 1]);
+				sorted = false;
+			}
+		}
+	}
+}
+
+template <typename T>
+void Vector<T>::bubbleSort3(Rank lo, Rank hi) {
+	for (int last = --hi; lo < last; hi = last) 
+		for (int i = last = lo; i < hi; i++) 
+			if (_elem[i] > _elem[i + 1])
+				std::swap(_elem[last = i], _elem[i + 1]);
+}
+
+template <typename T>
+void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
+	switch (sortType){
+	case (my_vector::BUBBLESORT1):
+		bubbleSort1(lo, hi); break;
+	case (my_vector::BUBBLESORT2):
+		bubbleSort2(lo, hi); break;
+	case (my_vector::BUBBLESORT3):
+		bubbleSort3(lo, hi); break;
+	default:
+		break;
+	}
+}

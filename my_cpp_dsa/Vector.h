@@ -5,6 +5,12 @@
 #define DEFAULT_CAPACITY 3
 typedef int Rank;
 
+namespace my_vector {
+	enum SortEnum {
+		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3
+	};
+}
+
 template <typename T> class Vector {
 protected:
 	Rank _size;
@@ -14,6 +20,11 @@ protected:
 	void expand();
 	void shrink();
 	void copyFrom(T const* A, Rank lo, Rank hi);
+
+	void bubbleSort1(Rank lo, Rank hi); // basic
+	void bubbleSort2(Rank lo, Rank hi); // early stop
+	void bubbleSort3(Rank lo, Rank hi); // jumping
+
 
 public:
 	Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0)
@@ -76,8 +87,12 @@ public:
 	// uniquify ordered vector
 	int uniquify1();
 	int uniquify2(); // more efficient
+
+	void sort(Rank lo, Rank hi, my_vector::SortEnum sortType);
+	void sort(my_vector::SortEnum sortType) { sort(0, _size, sortType); }
 	
 };
+
 
 #include "Vector_Implementation.h"
 
