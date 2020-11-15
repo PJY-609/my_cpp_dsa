@@ -212,6 +212,52 @@ void Vector<T>::bubbleSort3(Rank lo, Rank hi) {
 }
 
 template <typename T>
+Rank Vector<T>::max(Rank lo, Rank hi) {
+	Rank mx = hi;
+	while (lo < hi--)
+		if (_elem[hi] > _elem[mx]) 
+			mx = hi;
+	return mx;
+}
+
+template <typename T>
+void Vector<T>::selectionSort(Rank lo, Rank hi) {
+	while (lo < --hi)
+		std::swap(_elem[max(lo, hi)], _elem[hi]);
+}
+
+template <typename T>
+void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
+	int i = 0; 
+	T* A = _elem + lo;
+	
+	int j = 0, lb = mi - lo;
+	T* B = new T[lb]; 
+	for (int i = 0; i < lb; i++) B[i] = A[i];
+	
+	int k = 0, lc = hi - mi;
+	T* C = _elem + mi;
+
+	while (j < lb && k < lc)
+		A[i++] = (B[j] <= C[k]) ? B[j++] : C[k++];
+	while (j < lb) // if C runs out first
+		A[i++] = B[j++]; // fill the rest with B's elements
+	// if B runs out first
+	// C's elements remain their seats
+
+	delete[] B;
+}
+
+template <typename T>
+void Vector<T>::mergeSort(Rank lo, Rank hi) {
+	if (hi - lo < 2) return; // single elem doesn't need to be merger (will cause error in merge())
+
+	Rank mi = (hi + lo) >> 1;
+	mergeSort(lo, mi); mergeSort(mi, hi);
+	merge(lo, mi, hi);
+}
+
+template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
 	switch (sortType){
 	case (my_vector::BUBBLESORT1):
@@ -220,6 +266,10 @@ void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
 		bubbleSort2(lo, hi); break;
 	case (my_vector::BUBBLESORT3):
 		bubbleSort3(lo, hi); break;
+	case (my_vector::SELECTIONSORT):
+		selectionSort(lo, hi); break;
+	case (my_vector::MERGESORT):
+		mergeSort(lo, hi); break;
 	default:
 		break;
 	}

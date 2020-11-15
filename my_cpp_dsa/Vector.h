@@ -7,7 +7,9 @@ typedef int Rank;
 
 namespace my_vector {
 	enum SortEnum {
-		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3
+		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3,
+		SELECTIONSORT,
+		MERGESORT
 	};
 }
 
@@ -25,6 +27,11 @@ protected:
 	void bubbleSort2(Rank lo, Rank hi); // early stop
 	void bubbleSort3(Rank lo, Rank hi); // jumping
 
+	Rank max(Rank lo, Rank hi);
+	void selectionSort(Rank lo, Rank hi);
+
+	void merge(Rank lo, Rank mi, Rank hi); // merge two ordered subset
+	void mergeSort(Rank lo, Rank hi);
 
 public:
 	Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0)
