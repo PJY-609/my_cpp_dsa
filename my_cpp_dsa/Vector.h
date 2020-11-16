@@ -9,7 +9,9 @@ namespace my_vector {
 	enum SortEnum {
 		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3,
 		SELECTIONSORT,
-		MERGESORT
+		MERGESORT,
+		INSERTSORT,
+		SHELLSORT
 	};
 }
 
@@ -32,6 +34,11 @@ protected:
 
 	void merge(Rank lo, Rank mi, Rank hi); // merge two ordered subset
 	void mergeSort(Rank lo, Rank hi);
+
+	void insertSort(Rank lo, Rank hi, int step);
+	void insertSort(Rank lo, Rank hi) { insertSort(lo, hi, 1); }
+
+	void shellSort(Rank lo, Rank hi);
 
 public:
 	Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0)
@@ -97,6 +104,9 @@ public:
 
 	void sort(Rank lo, Rank hi, my_vector::SortEnum sortType);
 	void sort(my_vector::SortEnum sortType) { sort(0, _size, sortType); }
+
+	void unsort(Rank lo, Rank hi);
+	void unsort() { unsort(0, _size); }
 	
 };
 

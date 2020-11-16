@@ -243,7 +243,7 @@ void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
 	while (j < lb) // if C runs out first
 		A[i++] = B[j++]; // fill the rest with B's elements
 	// if B runs out first
-	// C's elements remain their seats
+	// C's elements remain their positions
 
 	delete[] B;
 }
@@ -255,6 +255,29 @@ void Vector<T>::mergeSort(Rank lo, Rank hi) {
 	Rank mi = (hi + lo) >> 1;
 	mergeSort(lo, mi); mergeSort(mi, hi);
 	merge(lo, mi, hi);
+}
+
+template <typename T>
+void Vector<T>::insertSort(Rank lo, Rank hi, int step) {
+	for (int i = lo + step; i < hi; i++) {
+		int j = i - step;
+		T x = _elem[i];
+		while (j >= 0 && _elem[j] > x) {
+			_elem[j + step] = _elem[j];
+			j -= step;
+		}
+		_elem[j + step] = x;
+	}
+}
+
+template <typename T>
+void Vector<T>::shellSort(Rank lo, Rank hi) { //0 <= lo < hi <= size <= 2^30
+	for (int d = 0x3FFFFFFF; d > 0; d >>= 1) //PS Sequence: { 1, 3, 7, 15, ..., 1073741823 }
+		insertSort(lo, hi, d);
+
+	for (int i = 0; i < _size; i++)
+		std::cout << _elem[i] << " ";
+	std::cout << std::endl;
 }
 
 template <typename T>
@@ -270,7 +293,18 @@ void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
 		selectionSort(lo, hi); break;
 	case (my_vector::MERGESORT):
 		mergeSort(lo, hi); break;
+	case(my_vector::INSERTSORT):
+		insertSort(lo, hi); break;
+	case (my_vector::SHELLSORT):
+		shellSort(lo, hi); break;
 	default:
 		break;
 	}
+}
+
+template <typename T>
+void Vector<T>::unsort(Rank lo, Rank hi) {
+	T* V = _elem + lo;
+	for (int i = 0; i < hi - lo; i++)
+		std::swap(V[i], V[std::rand() % (hi - lo)]);
 }
