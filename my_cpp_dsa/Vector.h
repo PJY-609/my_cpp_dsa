@@ -11,7 +11,14 @@ namespace my_vector {
 		SELECTIONSORT,
 		MERGESORT,
 		INSERTSORT,
-		SHELLSORT
+		SHELLSORT,
+		QUICKSORT
+	};
+
+	enum PartitionEnum {
+		LUG, LUG1,
+		LGU,
+		DUP, DUP1
 	};
 }
 
@@ -39,6 +46,15 @@ protected:
 	void insertSort(Rank lo, Rank hi) { insertSort(lo, hi, 1); }
 
 	void shellSort(Rank lo, Rank hi);
+
+	Rank partition1(Rank lo, Rank hi); // LUG
+	Rank partition2(Rank lo, Rank hi); // LUG1, the equivalent of LUG
+	Rank partition3(Rank lo, Rank hi); // DUP
+	Rank partition4(Rank lo, Rank hi); // DUP1
+	Rank partition5(Rank lo, Rank hi); // LGU
+	Rank partition(Rank lo, Rank hi, my_vector::PartitionEnum partitionType);
+
+	void quickSort(Rank lo, Rank hi, my_vector::PartitionEnum paritionType = my_vector::LGU); // iterative
 
 public:
 	Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0)

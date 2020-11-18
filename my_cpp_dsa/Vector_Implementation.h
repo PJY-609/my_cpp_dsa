@@ -274,15 +274,144 @@ template <typename T>
 void Vector<T>::shellSort(Rank lo, Rank hi) { //0 <= lo < hi <= size <= 2^30
 	for (int d = 0x3FFFFFFF; d > 0; d >>= 1) //PS Sequence: { 1, 3, 7, 15, ..., 1073741823 }
 		insertSort(lo, hi, d);
-
-	for (int i = 0; i < _size; i++)
-		std::cout << _elem[i] << " ";
-	std::cout << std::endl;
 }
 
 template <typename T>
+Rank Vector<T>::partition1(Rank lo, Rank hi) { // LUG
+	std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo)]); // randomly select an element as pivot
+	hi--;
+	T pivot = _elem[lo];
+
+	while (lo < hi) {
+		while (lo < hi && pivot <= _elem[hi])
+			hi--;
+		_elem[lo] = _elem[hi];
+		while (lo < hi && _elem[lo] <= pivot)
+			lo++;
+		_elem[hi] = _elem[lo];
+	}
+	_elem[lo] = pivot;
+	return lo;
+}
+
+template <typename T>
+Rank Vector<T>::partition2(Rank lo, Rank hi) { // LUG1, the equivalent of LUG
+	std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo)]); // randomly select an element as pivot
+	hi--;
+	T pivot = _elem[lo];
+
+	while (lo < hi) {
+		while (lo < hi && pivot <= _elem[hi])
+			hi--;
+		if (lo < hi) _elem[lo++] = _elem[hi];
+		while (lo < hi && _elem[lo] <= pivot)
+			lo++;
+		if (lo < hi) _elem[hi--] = _elem[lo];
+	}
+	_elem[lo] = pivot;
+	return lo;
+}
+
+template <typename T>
+Rank Vector<T>::partition3(Rank lo, Rank hi) { // DUP, better handle duplicate elements
+	std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo)]); // randomly select an element as pivot
+	hi--;
+	T pivot = _elem[lo];
+
+	while (lo < hi) {
+		while (lo < hi) {
+			if (pivot <= _elem[hi]) 
+				hi--;
+			else {
+				_elem[lo++] = _elem[hi];
+				break;
+			}
+		}
+		while (lo < hi) {
+			if (_elem[lo] <= pivot) 
+				lo++;
+			else {
+				_elem[hi--] = _elem[lo];
+				break;
+			};
+		}
+	}
+	_elem[lo] = pivot;
+	return lo;
+}
+
+template <typename T>
+Rank Vector<T>::partition4(Rank lo, Rank hi) { // DUP1, the equivalent of DUP
+	std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo)]); // randomly select an element as pivot
+	hi--;
+	T pivot = _elem[lo];
+
+	while (lo < hi) {
+		while (lo < hi && pivot < _elem[hi])
+			hi--;
+		if (lo < hi) _elem[lo++] = _elem[hi];
+		while (lo < hi && _elem[lo] < pivot)
+			lo++;
+		if (lo < hi) _elem[hi--] = _elem[lo];
+	}
+	_elem[lo] = pivot;
+	return lo;
+}
+
+template <typename T>
+Rank Vector<T>::partition5(Rank lo, Rank hi) { // LGU
+	std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo)]); // randomly select an element as pivot
+	T pivot = _elem[lo];
+	Rank mi = lo;
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//   ---- L < [lo] ----- ] ----- [lo] <= G --- ] [ ----- Unknown -------
+	// X x . . . . . . . . . x . . . . . . . . . . . x . . . . . . . . . . x X
+	// |                     |                       |                       |
+	// lo (pivot candidate)  mi                      k                       hi
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	for (int k = lo + 1; k < hi; k++)
+		if (_elem[k] < pivot)
+			std::swap(_elem[++mi], _elem[k]);
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//   --------- L < [lo] ---------- ] ------------- [lo] <= G ----------]
+	// X x . . . . . . . . . . . . . . x . . . . . . . . . . . . . . . . . x X
+	// |                               |                                     |
+	// lo (pivot candidate)            mi                                    hi
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	std::swap(_elem[mi], _elem[lo]);
+	return mi;
+}
+
+template <typename T>
+Rank Vector<T>::partition(Rank lo, Rank hi, my_vector::PartitionEnum partitionType) {
+	switch (partitionType) {
+	case (my_vector::LUG):
+		return partition1(lo, hi);
+	case (my_vector::LUG1):
+		return partition2(lo, hi);
+	case (my_vector::DUP):
+		return partition3(lo, hi);
+	case (my_vector::DUP1):
+		return partition4(lo, hi);
+	case (my_vector::LGU):
+		return partition5(lo, hi);
+	default:
+		break;
+	}
+}
+
+template <typename T>
+void Vector<T>::quickSort(Rank lo, Rank hi, my_vector::PartitionEnum paritionType) {
+	if (hi - lo < 2) return;
+	Rank mi = partition(lo, hi, paritionType);
+	quickSort(lo, mi, paritionType); 
+	quickSort(mi + 1, hi, paritionType);
+}
+
+
+template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
-	switch (sortType){
+	switch (sortType) {
 	case (my_vector::BUBBLESORT1):
 		bubbleSort1(lo, hi); break;
 	case (my_vector::BUBBLESORT2):
@@ -293,10 +422,12 @@ void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
 		selectionSort(lo, hi); break;
 	case (my_vector::MERGESORT):
 		mergeSort(lo, hi); break;
-	case(my_vector::INSERTSORT):
+	case (my_vector::INSERTSORT):
 		insertSort(lo, hi); break;
 	case (my_vector::SHELLSORT):
 		shellSort(lo, hi); break;
+	case (my_vector::QUICKSORT):
+		quickSort(lo, hi); break;
 	default:
 		break;
 	}
