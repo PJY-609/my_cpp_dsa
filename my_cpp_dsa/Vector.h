@@ -124,6 +124,8 @@ public:
 	void unsort(Rank lo, Rank hi);
 	void unsort() { unsort(0, _size); }
 	
+	void traverse(void (*visit)(T &e)); // function pointer
+	template <typename VST> void traverse(VST &); // function object
 };
 
 
