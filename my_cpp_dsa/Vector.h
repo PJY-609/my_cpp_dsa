@@ -32,6 +32,12 @@ protected:
 	void shrink();
 	void copyFrom(T const* A, Rank lo, Rank hi);
 
+	/* |    Sort Type   | Avg Time Complexity | Worst Time Complexity | Space Complexity | Stability | */
+	/* |   Bubble Sort  |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
+	/* | Selection Sort |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
+	/* |   Insert Sort  |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
+	/* |   Merge Sort   |       O(nlogn)      |        O(nlogn)       |       O(logn)    |   Stable  | */
+
 	void bubbleSort1(Rank lo, Rank hi); // basic
 	void bubbleSort2(Rank lo, Rank hi); // early stop
 	void bubbleSort3(Rank lo, Rank hi); // jumping
@@ -53,7 +59,6 @@ protected:
 	Rank partition4(Rank lo, Rank hi); // DUP1
 	Rank partition5(Rank lo, Rank hi); // LGU
 	Rank partition(Rank lo, Rank hi, my_vector::PartitionEnum partitionType);
-
 	void quickSort(Rank lo, Rank hi, my_vector::PartitionEnum paritionType = my_vector::LGU); // iterative
 
 public:
