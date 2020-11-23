@@ -32,11 +32,11 @@ protected:
 	void shrink();
 	void copyFrom(T const* A, Rank lo, Rank hi);
 
-	/* |    Sort Type   | Avg Time Complexity | Worst Time Complexity | Space Complexity | Stability | */
-	/* |   Bubble Sort  |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
-	/* | Selection Sort |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
-	/* |   Insert Sort  |       O(n^2)        |        O(n^2)         |       O(1)       |   Stable  | */
-	/* |   Merge Sort   |       O(nlogn)      |        O(nlogn)       |       O(logn)    |   Stable  | */
+	/* |    Sort Type   | Best Time | Avg Time | Worst Time |  Space  | Stability | */
+	/* |   Bubble Sort  |   O(n)    |  O(n^2)  |   O(n^2)   |   O(1)  |   Stable  | */
+	/* | Selection Sort |  O(n^2)   |  O(n^2)  |   O(n^2)   |   O(1)  |   Stable  | */
+	/* |   Insert Sort  |   O(n)    |  O(n^2)  |   O(n^2)   |   O(1)  |   Stable  | */
+	/* |   Merge Sort   |  O(nlogn) | O(nlogn) |  O(nlogn)  | O(logn) |   Stable  | */
 
 	void bubbleSort1(Rank lo, Rank hi); // basic
 	void bubbleSort2(Rank lo, Rank hi); // early stop
@@ -109,26 +109,31 @@ public:
 	Rank fibSearch2(T const &e) const
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
 
+	// insert: O(n)
 	Rank insert(T const &e, Rank r);
 	Rank insert(T const &e) { return insert(e, _size); }
 
+	//remove: O(n)
 	T remove(Rank r);
 	int remove(Rank lo, Rank hi);
 	
 	// deduplicate random vector
+	// O(n^2), time most consumed by find() and remove()
 	int deduplicate1();
 	int deduplicate2(); // more efficient
 
 	// uniquify ordered vector
-	int uniquify1();
-	int uniquify2(); // more efficient
+	int uniquify1(); // O(n^2)
+	int uniquify2(); // O(n), take advantage of the orderedness
 
 	void sort(Rank lo, Rank hi, my_vector::SortEnum sortType);
 	void sort(my_vector::SortEnum sortType) { sort(0, _size, sortType); }
 
+	// randomize elements: O(n)
 	void unsort(Rank lo, Rank hi);
 	void unsort() { unsort(0, _size); }
 	
+	//traverse: O(n)
 	void traverse(void (*visit)(T &e)); // function pointer
 	template <typename VST> void traverse(VST &); // function object
 };
