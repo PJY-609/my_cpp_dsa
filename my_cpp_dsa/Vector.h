@@ -108,6 +108,8 @@ public:
 	Rank fibSearch2(T const &e, Rank lo, Rank hi) const;
 	Rank fibSearch2(T const &e) const
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
+	// bin search: O(1.50logn) vs fib search: O(1.44logn)
+
 
 	// insert: O(n)
 	Rank insert(T const &e, Rank r);
