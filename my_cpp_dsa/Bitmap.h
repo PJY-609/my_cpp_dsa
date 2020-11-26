@@ -14,6 +14,10 @@ protected:
 
 public:
 	Bitmap(int n = 8) { init(n); }
+	Bitmap(char* file, int n = 8)
+	{
+		init(n); FILE* fp;  fopen_s(&fp, file, "r"); fread(M, sizeof(char), N, fp); fclose(fp);
+	}
 	~Bitmap() { delete[] M; M = NULL; }
 	
 	// k >> 3: do the integer division by 8 
@@ -21,6 +25,11 @@ public:
 	bool test(int k)  { expand(k); return M[k >> 3] &   (0x80 >> (k & 0x07)); }
 	void set(int k)   { expand(k);        M[k >> 3] |=  (0x80 >> (k & 0x07)); }
 	void clear(int k) { expand(k);        M[k >> 3] &= ~(0x80 >> (k & 0x07)); }
+
+	void dump(char* file)
+	{
+		FILE* fp; fopen_s(&fp, file, "w"); fwrite(M, sizeof(char), N, fp); fclose(fp);
+	}
 
 	void expand(int k) { // if k out of bound, expand space
 		if (k < 8 * N) return;
