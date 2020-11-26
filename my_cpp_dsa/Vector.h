@@ -22,6 +22,7 @@ namespace my_vector {
 	};
 }
 
+
 template <typename T> class Vector {
 protected:
 	Rank _size;
@@ -140,7 +141,25 @@ public:
 	template <typename VST> void traverse(VST &); // function object
 };
 
+namespace my_vector {
 
+	// function object
+	template <typename T> struct Increase {
+		virtual void operator() (T &e) { e++; }
+	};
+
+	template <typename T> void increase(Vector<T> &V) {
+		V.traverse(Increase<T>());
+	}
+
+	template <typename T> struct Decrease {
+		virtual void operator() (T &e) { e--; }
+	};
+
+	template <typename T> void decrease(Vector<T> &V) {
+		V.traverse(Decrease<T>());
+	}
+}
 #include "Vector_Implementation.h"
 
 
