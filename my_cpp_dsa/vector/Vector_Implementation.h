@@ -82,6 +82,13 @@ Rank Vector<T>::binSearch3(T const &e, Rank lo, Rank hi) const {
 	return lo - 1;
 } // can find the max Rank if multiple vals exist
 
+
+// middle point of fib search can be determined as
+// mi = floor(0.382 * lo + 0.618 * hi)
+// or 
+// mi = (lo + (lo << 1) + hi + (hi << 2)) >> 3
+// That makes the init of fib sequence more concise
+
 template <typename T>
 Rank Vector<T>::fibSearch1(T const &e, Rank lo, Rank hi) const {
 	Fib fib(hi - lo);
