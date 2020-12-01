@@ -1,4 +1,6 @@
-#include "Bitmap.h"
+
+#include "stdlib.h"
+#include "..\bitmap\Bitmap.h"
 
 void Eratosthenes(int n, char* file) {
 	/******************************************************************************************

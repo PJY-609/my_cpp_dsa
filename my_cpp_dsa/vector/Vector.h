@@ -1,6 +1,6 @@
 #pragma once
 
-#include "fib/Fib.h"
+#include "..\fib\Fib.h"
 
 #define DEFAULT_CAPACITY 3
 typedef int Rank;
