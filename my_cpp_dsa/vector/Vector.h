@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Fib.h"
+#include "fib/Fib.h"
 
 #define DEFAULT_CAPACITY 3
 typedef int Rank;
 
 namespace my_vector {
 	enum SortEnum {
-		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3,
+		BUBBLESORT1, BUBBLESORT2, BUBBLESORT3, BUBBLESORT4,
 		SELECTIONSORT,
 		MERGESORT,
 		INSERTSORT,
@@ -42,6 +42,8 @@ protected:
 	void bubbleSort1(Rank lo, Rank hi); // basic
 	void bubbleSort2(Rank lo, Rank hi); // early stop
 	void bubbleSort3(Rank lo, Rank hi); // jumping
+	int bubble(Rank lo, Rank hi, bool inverse);
+	void bubbleSort4(Rank lo, Rank hi); // for partly ordered vector
 
 	Rank max(Rank lo, Rank hi);
 	void selectionSort(Rank lo, Rank hi);

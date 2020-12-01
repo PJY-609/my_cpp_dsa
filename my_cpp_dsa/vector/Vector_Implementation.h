@@ -219,6 +219,30 @@ void Vector<T>::bubbleSort3(Rank lo, Rank hi) {
 }
 
 template <typename T>
+int Vector<T>::bubble(Rank start, Rank end, bool reverse){
+	int step = reverse ? -1 : 1;
+	int last = start;
+	for (int i = start; step * (end - i) > 1; i += step) {
+		if (step * (_elem[i] - _elem[i + step]) > 0) {
+			std::swap(_elem[i], _elem[i + step]);
+			last = i;
+		}
+	}
+	return last;
+}
+
+// for partly ordered vector
+// O(n) if unordered elems exist only in [ m, m + sqrt(n) )
+template <typename T>
+void Vector<T>::bubbleSort4(Rank lo, Rank hi){
+	hi--;
+	while (lo + 1 < ++hi) {
+		hi = bubble(lo, hi , false);
+		lo = bubble(hi, lo, true);
+	}
+}
+
+template <typename T>
 Rank Vector<T>::max(Rank lo, Rank hi) {
 	Rank mx = hi;
 	while (lo < hi--)
@@ -425,6 +449,8 @@ void Vector<T>::sort(Rank lo, Rank hi, my_vector::SortEnum sortType) {
 		bubbleSort2(lo, hi); break;
 	case (my_vector::BUBBLESORT3):
 		bubbleSort3(lo, hi); break;
+	case (my_vector::BUBBLESORT4):
+		bubbleSort4(lo, hi); break;
 	case (my_vector::SELECTIONSORT):
 		selectionSort(lo, hi); break;
 	case (my_vector::MERGESORT):
