@@ -42,7 +42,7 @@ protected:
 	void bubbleSort1(Rank lo, Rank hi); // basic
 	void bubbleSort2(Rank lo, Rank hi); // early stop
 	void bubbleSort3(Rank lo, Rank hi); // jumping
-	int bubble(Rank lo, Rank hi, bool inverse);
+	Rank bubble(Rank lo, Rank hi, bool reverse);
 	void bubbleSort4(Rank lo, Rank hi); // for partly ordered vector
 
 	Rank max(Rank lo, Rank hi);

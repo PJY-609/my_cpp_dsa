@@ -219,7 +219,7 @@ void Vector<T>::bubbleSort3(Rank lo, Rank hi) {
 }
 
 template <typename T>
-int Vector<T>::bubble(Rank start, Rank end, bool reverse){
+Rank Vector<T>::bubble(Rank start, Rank end, bool reverse){
 	int step = reverse ? -1 : 1;
 	int last = start;
 	for (int i = start; step * (end - i) > 1; i += step) {
