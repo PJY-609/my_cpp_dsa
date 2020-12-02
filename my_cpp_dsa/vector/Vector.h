@@ -15,6 +15,12 @@ namespace my_vector {
 		QUICKSORT
 	};
 
+	enum MergeEnum {
+		MERGE1,
+		MERGE2,
+		MERGE3
+	};
+
 	enum PartitionEnum {
 		LUG, LUG1,
 		LGU,
@@ -48,7 +54,10 @@ protected:
 	Rank max(Rank lo, Rank hi);
 	void selectionSort(Rank lo, Rank hi);
 
-	void merge(Rank lo, Rank mi, Rank hi); // merge two ordered subset
+	void merge1(Rank lo, Rank mi, Rank hi); // merge two ordered subset
+	void merge2(Rank lo, Rank mi, Rank hi);
+	void merge3(Rank lo, Rank mi, Rank hi);
+	void merge(Rank lo, Rank mi, Rank hi, my_vector::MergeEnum mergeType = my_vector::MERGE3);
 	void mergeSort(Rank lo, Rank hi);
 
 	void insertSort(Rank lo, Rank hi, int step);

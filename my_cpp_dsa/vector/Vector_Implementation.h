@@ -257,15 +257,36 @@ void Vector<T>::selectionSort(Rank lo, Rank hi) {
 		std::swap(_elem[max(lo, hi)], _elem[hi]);
 }
 
+
 template <typename T>
-void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
-	int i = 0; 
+void Vector<T>::merge1(Rank lo, Rank mi, Rank hi) {
+	int i = 0;
 	T* A = _elem + lo;
-	
+
 	int j = 0, lb = mi - lo;
-	T* B = new T[lb]; 
+	T* B = new T[lb];
 	for (int i = 0; i < lb; i++) B[i] = A[i];
-	
+
+	int k = 0, lc = hi - mi;
+	T* C = _elem + mi;
+
+	while (j < lb || k < lc) {
+		if ((j < lb) && (!(k < lc) || B[j] <= C[k])) A[i++] = B[j++]; // <= helps maintain stability
+		if ((k < lc) && (!(j < lb) || C[k] < B[j])) A[i++] = C[k++];
+	}
+
+	delete[] B;
+}
+
+template <typename T>
+void Vector<T>::merge2(Rank lo, Rank mi, Rank hi) {
+	int i = 0;
+	T* A = _elem + lo;
+
+	int j = 0, lb = mi - lo;
+	T* B = new T[lb];
+	for (int i = 0; i < lb; i++) B[i] = A[i];
+
 	int k = 0, lc = hi - mi;
 	T* C = _elem + mi;
 
@@ -280,12 +301,47 @@ void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
 }
 
 template <typename T>
+void Vector<T>::merge3(Rank lo, Rank mi, Rank hi) {
+	int i = 0; 
+	T* A = _elem + lo;
+	
+	int j = 0, lb = mi - lo;
+	T* B = new T[lb]; 
+	for (int i = 0; i < lb; i++) B[i] = A[i];
+	
+	int k = 0, lc = hi - mi;
+	T* C = _elem + mi;
+
+	while (j < lb) {
+		if (k >= lc || B[j] <= C[k]) A[i++] = B[j++];
+		if (k <  lc && C[k] <  B[j]) A[i++] = C[k++];
+	}
+	
+	delete[] B;
+}
+
+template <typename T>
+void Vector<T>::merge(Rank lo, Rank mi, Rank hi, my_vector::MergeEnum mergeType) {
+	switch (mergeType)
+	{
+	case my_vector::MERGE1: 
+		merge1(lo, mi, hi); break;
+	case my_vector::MERGE2: 
+		merge2(lo, mi, hi); break;
+	case my_vector::MERGE3: 
+		merge3(lo, mi, hi); break;
+	default:
+		break;
+	}
+}
+
+template <typename T>
 void Vector<T>::mergeSort(Rank lo, Rank hi) {
 	if (hi - lo < 2) return; // single elem doesn't need to be merger (will cause error in merge())
 
 	Rank mi = (hi + lo) >> 1;
 	mergeSort(lo, mi); mergeSort(mi, hi);
-	merge(lo, mi, hi);
+	if(_elem[mi] < _elem[mi - 1]) merge(lo, mi, hi); // skip merge if sub-vectors are alreay ordered 
 }
 
 template <typename T>
