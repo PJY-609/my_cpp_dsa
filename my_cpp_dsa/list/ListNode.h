@@ -1,6 +1,7 @@
 #pragma once
 
 // list node position
+typedef int Rank;
 #define ListNodePosi(T) ListNode<T>* // template alias: #define APtr(T) A<T>*
 
 template <typename T> struct ListNode {
