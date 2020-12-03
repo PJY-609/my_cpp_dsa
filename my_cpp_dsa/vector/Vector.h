@@ -85,15 +85,10 @@ public:
 
 	~Vector() { delete[] _elem; }
 
-	// read only accessor
+	/* read only accessor */
 	Rank size() const { return _size; }
 	int capacity() const { return _capacity; }
 	bool empty() const { return !_size; }
-
-	// operator
-	T& operator[] (Rank r);
-	const T& operator[] (Rank r) const;
-	Vector<T>& operator= (Vector<T> const &);
 
 	// find elem in random vector
 	// linear find: O(n)
@@ -122,6 +117,10 @@ public:
 	{ return (0 >= _size) ? -1 : fibSearch2(e, 0, _size); }
 	// bin search: O(1.50logn) vs fib search: O(1.44logn)
 
+	/* accessible */
+	T& operator[] (Rank r);
+	const T& operator[] (Rank r) const;
+	Vector<T>& operator= (Vector<T> const &);
 
 	// insert: O(n)
 	Rank insert(T const &e, Rank r);
