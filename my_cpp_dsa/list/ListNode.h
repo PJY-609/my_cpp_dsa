@@ -6,7 +6,8 @@ typedef int Rank;
 
 template <typename T> struct ListNode {
 	T data;
-	ListNodePosi(T) pred, succ; // predecessor and successor
+	ListNodePosi(T) pred;
+	ListNodePosi(T) succ; // predecessor and successor
 
 	ListNode(){} // for header and trailer
 	ListNode(T e, ListNodePosi(T) p = NULL, ListNodePosi(T) s = NULL): // initialization list for constructor
