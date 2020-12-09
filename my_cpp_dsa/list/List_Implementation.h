@@ -80,3 +80,37 @@ template <typename T>
 List<T>::List(ListNodePosi(T) p, int n) {
 	copyNodes(p, n);
 }
+
+template <typename T>
+ListNodePosi(T) List<T>::find(T const &e, int n, ListNodePosi(T) p) { // find the last node in n predeccessors of p (p could be trailer)
+	while (n-- > 0) { //£¨0 <= n <= rank(p) < _size£©
+		p = p->pred;
+		if (p->data == e) return p;
+	}
+	return NULL;
+}
+
+template <typename T>
+int List<T>::deduplicate() {
+	int oldSize = _size;
+	ListNodePosi(T) p = first();
+	for (Rank r = 0; p != trailer; p = p->succ) {
+		if (ListNodePosi(T) q = find(p->data, r , p))
+			remove(q);
+		else 
+			r++;
+	}
+	return oldSize - _size;
+}
+
+template <typename T>
+void List<T>::traverse(void (*visit)(T &e)) {
+	for (ListNodePosi(T) p = first(); p != trailer; p = p->succ)
+		visit(p->data);
+}
+
+template <typename T> template <typename VST>
+void List<T>::traverse(VST &visit) {
+	for (ListNodePosi(T) p = first(); p != trailer; p = p->succ)
+		visit(p->data);
+}
