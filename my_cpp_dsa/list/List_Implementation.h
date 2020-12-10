@@ -82,7 +82,7 @@ List<T>::List(ListNodePosi(T) p, int n) {
 }
 
 template <typename T>
-ListNodePosi(T) List<T>::find(T const &e, int n, ListNodePosi(T) p) { // find the last node in n predeccessors of p (p could be trailer)
+ListNodePosi(T) List<T>::find(T const &e, int n, ListNodePosi(T) p) const { // find the last node in n predeccessors of p (p could be trailer)
 	while (n-- > 0) { //£¨0 <= n <= rank(p) < _size£©
 		p = p->pred;
 		if (p->data == e) return p;
@@ -113,4 +113,25 @@ template <typename T> template <typename VST>
 void List<T>::traverse(VST &visit) {
 	for (ListNodePosi(T) p = first(); p != trailer; p = p->succ)
 		visit(p->data);
+}
+
+template <typename T>
+int List<T>::uniquify() {
+	if (_size < 2) return 0;
+	int oldSize = _size;
+	ListNodePosi(T) p = first(); ListNodePosi(T) q;
+	while ((q = p->succ) != trailer) {
+		if (q->data == p->data)
+			remove(q);
+		else p = q;
+	}
+	return oldSize - _size;
+}
+
+template <typename T>
+ListNodePosi(T) List<T>::search(T const &e, int n, ListNodePosi(T) p) const {
+	while (n-- > 0 && (p = p->pred)->data >= e) {
+		if (p->data == e) return p;
+	}
+	return NULL;
 }

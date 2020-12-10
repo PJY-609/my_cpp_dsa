@@ -29,12 +29,15 @@ public:
 	bool valid(ListNodePosi(T) p) { return p && (header != p) && (trailer != p); } // check if position is valid
 	
 	// unsorted list find
-	ListNodePosi(T) find(T const &e) { return find(e, _size, trailer); }
-	ListNodePosi(T) find(T const &e, int n, ListNodePosi(T) p);
+	ListNodePosi(T) find(T const &e) const { return find(e, _size, trailer); }
+	ListNodePosi(T) find(T const &e, int n, ListNodePosi(T) p) const;
 
+	// sorted list search
+	ListNodePosi(T) search(T const &e) const { return search(e, _size, trailer); }
+	ListNodePosi(T) search(T const &e, int n, ListNodePosi(T) p) const;
 
-	int deduplicate(); //unsorted list
-
+	int deduplicate(); // unsorted list
+	int uniquify(); // sorted list
 
 	// O(n), not recommended
 	T& operator[] (Rank r) const;
