@@ -135,3 +135,32 @@ ListNodePosi(T) List<T>::search(T const &e, int n, ListNodePosi(T) p) const {
 	}
 	return NULL;
 }
+
+template <typename T>
+ListNodePosi(T) List<T>::selectMax(ListNodePosi(T) p, int n) {
+	ListNodePosi(T) max = p;
+	for (ListNodePosi(T) cur = p; n-- > 0; cur = cur->succ)
+		if (cur->data >= max->data) max = cur; // '>=' ensures that the last maximum elem is chosen
+	return max;
+}
+
+template <typename T>
+void List<T>::selectionSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
+	ListNodePosi(T) head = p->pred; ListNodePosi(T) tail = p;
+	for (int i = 0; i < n; i++) tail = tail->succ;
+	while (n > 1) {
+		ListNodePosi(T) max = selectMax(head->succ, n);
+		insertB(tail, remove(max));
+		tail = tail->pred; n--;
+	}
+}
+
+template <typename T>
+void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
+	switch (sortType){
+	case my_list::SELETIONSORT:
+		selectionSort(p, n); break;
+	default:
+		break;
+	}
+}

@@ -3,6 +3,12 @@
 
 #include "ListNode.h"
 
+namespace my_list {
+	enum SortEnum{
+		SELETIONSORT
+	};
+}
+
 template <typename T> class List {
 private:
 	int _size;
@@ -12,7 +18,9 @@ private:
 protected:
 	void init();
 	int clear();
-	void copyNodes(ListNodePosi(T) p, int n); // copy n nodes, starting from p 
+	void copyNodes(ListNodePosi(T) p, int n); // copy n nodes, starting from p
+
+	void selectionSort(ListNodePosi(T) p, int n);
 
 public:
 	List() { init(); }
@@ -49,8 +57,15 @@ public:
 	ListNodePosi(T) insertB(ListNodePosi(T) p, T const &e); // insert before
 	T remove(ListNodePosi(T) p);
 
+	ListNodePosi(T) selectMax(ListNodePosi(T) p, int n);
+	ListNodePosi(T) selectMax() { return selectMax(first(), _size); }
+
 	void traverse(void (*visit)(T &e));
 	template <typename VST> void traverse(VST &);
+
+	void sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType = my_list::SELETIONSORT);
+	void sort(my_list::SortEnum sortType = my_list::SELETIONSORT) { sort(first(), _size, sortType); }
+
 };
 
 #include "List_Implementation.h"
