@@ -5,7 +5,8 @@
 
 namespace my_list {
 	enum SortEnum{
-		SELETIONSORT
+		SELETIONSORT,
+		INSERTSORT
 	};
 }
 
@@ -21,6 +22,7 @@ protected:
 	void copyNodes(ListNodePosi(T) p, int n); // copy n nodes, starting from p
 
 	void selectionSort(ListNodePosi(T) p, int n);
+	void insertSort(ListNodePosi(T) p, int n);
 
 public:
 	List() { init(); }

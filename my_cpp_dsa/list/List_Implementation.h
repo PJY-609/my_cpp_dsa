@@ -129,12 +129,12 @@ int List<T>::uniquify() {
 }
 
 template <typename T>
-ListNodePosi(T) List<T>::search(T const &e, int n, ListNodePosi(T) p) const {
-	while (n-- > 0 && (p = p->pred)->data >= e) {
-		if (p->data == e) return p;
-	}
-	return NULL;
-}
+ListNodePosi(T) List<T>::search(T const &e, int n, ListNodePosi(T) p) const { // p might be trailer
+	do {
+		p = p->pred; n--;
+	} while ((n > -1) && (e < p->data));
+	return p; 
+} // might return header or trailer. use valid() to check. 
 
 template <typename T>
 ListNodePosi(T) List<T>::selectMax(ListNodePosi(T) p, int n) {
@@ -156,10 +156,21 @@ void List<T>::selectionSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
 }
 
 template <typename T>
+void List<T>::insertSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
+	for (int r = 0; r < n; r++) {
+		insertA(search(p->data, r, p), p->data);
+		p = p->succ; 
+		remove(p->pred);
+	}
+}
+
+template <typename T>
 void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 	switch (sortType){
 	case my_list::SELETIONSORT:
 		selectionSort(p, n); break;
+	case my_list::INSERTSORT:
+		insertSort(p, n); break;
 	default:
 		break;
 	}
