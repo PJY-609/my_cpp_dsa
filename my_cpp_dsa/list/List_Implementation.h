@@ -164,6 +164,30 @@ void List<T>::insertSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
 	}
 }
 
+// merge n elems of current list from q and m elems of List L from q
+template <typename T> 
+ListNodePosi(T) List<T>::merge(ListNodePosi(T) p, int n, List<T> &L, ListNodePosi(T) q, int m) {
+	ListNodePosi(T) pp = p->pred;
+	while ((m > 0) && (p != q)) {
+		if ((n > 0) && (p->data <= q->data)) { // '=' is important to maintain the sort stability
+			p = p->succ; n--; 
+		}
+		else {
+			insertB(p, L.remove((q = q->succ)->pred)); m--;
+		}
+	}
+	return pp->succ;
+}
+
+template <typename T>
+void List<T>::mergeSort(ListNodePosi(T) &p, int n) {
+	if (n < 2) return;
+	int m = n >> 1;
+	ListNodePosi(T) q = p; for (int i = 0; i < m; i++) q = q->succ;
+	mergeSort(p, m); mergeSort(q, n - m);
+	p = merge(p, m, *this, q, n - m);
+}
+
 template <typename T>
 void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 	switch (sortType){
@@ -171,6 +195,8 @@ void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 		selectionSort(p, n); break;
 	case my_list::INSERTSORT:
 		insertSort(p, n); break;
+	case my_list::MERGESORT:
+		mergeSort(p, n); break;
 	default:
 		break;
 	}

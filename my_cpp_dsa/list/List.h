@@ -6,7 +6,8 @@
 namespace my_list {
 	enum SortEnum{
 		SELETIONSORT,
-		INSERTSORT
+		INSERTSORT,
+		MERGESORT
 	};
 }
 
@@ -23,6 +24,8 @@ protected:
 
 	void selectionSort(ListNodePosi(T) p, int n);
 	void insertSort(ListNodePosi(T) p, int n);
+	ListNodePosi(T) merge(ListNodePosi(T) p, int n, List<T> &L, ListNodePosi(T) q, int m);
+	void mergeSort(ListNodePosi(T) &p, int n);
 
 public:
 	List() { init(); }
