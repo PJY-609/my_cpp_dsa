@@ -169,6 +169,31 @@ namespace my_vector {
 	template <typename T> void decrease(Vector<T> &V) {
 		V.traverse(Decrease<T>());
 	}
+
+	template <typename T> struct CheckOrder {
+		T pred; int &u;
+		CheckOrder(int& unsorted, T& first) : pred(first), u(unsorted){}
+		virtual void operator() (T &e) { if (pred > e) u++; pred = e; }
+	};
+
+	template <typename T> bool checkOrder(Vector<T> &V) {
+		int unsorted = 0;
+		V.traverse(CheckOrder<T>(unsorted, V[0]));
+		return !(unsorted > 0);
+	}
+
+	template <typename T> struct Crc {
+		T& c;
+		Crc(int& crc) : c (crc){}
+		virtual void operator() (T &e) { c += e; }
+	};
+
+	template <typename T> int crc(Vector<T> &V) {
+		int c = 0;
+		V.traverse(Crc<T>(c));
+		return c;
+	}
+
 }
 #include "Vector_Implementation.h"
 
