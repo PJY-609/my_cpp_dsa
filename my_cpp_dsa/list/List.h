@@ -7,7 +7,8 @@ namespace my_list {
 	enum SortEnum{
 		SELETIONSORT,
 		INSERTSORT,
-		MERGESORT
+		MERGESORT,
+		RADIXSORT
 	};
 }
 
@@ -23,9 +24,13 @@ protected:
 	void copyNodes(ListNodePosi(T) p, int n); // copy n nodes, starting from p
 
 	void selectionSort(ListNodePosi(T) p, int n);
+	
 	void insertSort(ListNodePosi(T) p, int n);
+	
 	ListNodePosi(T) merge(ListNodePosi(T) p, int n, List<T> &L, ListNodePosi(T) q, int m);
 	void mergeSort(ListNodePosi(T) &p, int n);
+
+	void radixSort(ListNodePosi(T) p, int n);
 
 public:
 	List() { init(); }
@@ -40,6 +45,9 @@ public:
 	ListNodePosi(T) first() const { return header->succ; } // first node
 	ListNodePosi(T) last() const { return trailer->pred; } // last node
 	bool valid(ListNodePosi(T) p) { return p && (header != p) && (trailer != p); } // check if position is valid
+
+	ListNodePosi(T) max(ListNodePosi(T) p, int n) const;
+	ListNodePosi(T) max() const { return max(first(), _size); }
 	
 	// unsorted list find
 	ListNodePosi(T) find(T const &e) const { return find(e, _size, trailer); }
@@ -70,6 +78,8 @@ public:
 
 	void sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType = my_list::SELETIONSORT);
 	void sort(my_list::SortEnum sortType = my_list::SELETIONSORT) { sort(first(), _size, sortType); }
+
+	void reverse();
 
 };
 

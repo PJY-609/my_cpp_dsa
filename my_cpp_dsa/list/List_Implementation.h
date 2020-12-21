@@ -188,6 +188,33 @@ void List<T>::mergeSort(ListNodePosi(T) &p, int n) {
 	p = merge(p, m, *this, q, n - m);
 }
 
+typedef unsigned int U;
+
+template <typename T>
+void List<T>::radixSort(ListNodePosi(T) p, int n) {
+	ListNodePosi(T) head = p->pred; ListNodePosi(T) tail = p;
+	for (int i = 0; i < n; i++) tail = tail->succ;
+
+	U maxVal = U (max(p, n)->data);
+	U highestBit = 0x1; while (maxVal >>= 1) highestBit <<= 1;
+
+	for (U radixBit = 0x1; (radixBit <= highestBit) && (p = head); radixBit <<= 1) {
+		for (int i = 0; i < n; i++) {
+			(radixBit & U(p->succ->data)) ?
+				insertB(tail, remove(p->succ)) : p = p->succ;
+		}
+	}
+}
+
+template <typename T>
+ListNodePosi(T) List<T>::max(ListNodePosi(T) p, int n) const {
+	T maxVal = std::numeric_limits<T>::min(); ListNodePosi(T) q = p;
+	while (n-- > 0)
+		if (p->data >= maxVal)
+			q = p;
+	return q;
+}
+
 template <typename T>
 void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 	switch (sortType){
@@ -197,7 +224,18 @@ void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 		insertSort(p, n); break;
 	case my_list::MERGESORT:
 		mergeSort(p, n); break;
+	case my_list::RADIXSORT:
+		radixSort(p, n); break;
 	default:
 		break;
 	}
+}
+
+template <typename T>
+void List<T>::reverse() {
+	if (_size < 2) return;
+	for (ListNodePosi(T) p = header; p; p = p->pred) {
+		std::swap(p->pred, p->succ);
+	}
+	std::swap(header, trailer);
 }
