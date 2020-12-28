@@ -5,7 +5,7 @@
 
 namespace my_list {
 	enum SortEnum{
-		SELETIONSORT,
+		SELECTIONSORT,
 		INSERTSORT,
 		MERGESORT,
 		RADIXSORT
@@ -23,8 +23,9 @@ protected:
 	int clear();
 	void copyNodes(ListNodePosi(T) p, int n); // copy n nodes, starting from p
 
-	void selectionSort(ListNodePosi(T) p, int n);
-	
+	void selectionSort1(ListNodePosi(T) p, int n);
+	void selectionSort2(ListNodePosi(T) p, int n);
+
 	void insertSort(ListNodePosi(T) p, int n);
 	
 	ListNodePosi(T) merge(ListNodePosi(T) p, int n, List<T> &L, ListNodePosi(T) q, int m);
@@ -50,6 +51,7 @@ public:
 	ListNodePosi(T) max() const { return max(first(), _size); }
 	
 	// unsorted list find
+	// O(n)
 	ListNodePosi(T) find(T const &e) const { return find(e, _size, trailer); }
 	ListNodePosi(T) find(T const &e, int n, ListNodePosi(T) p) const;
 
@@ -57,8 +59,8 @@ public:
 	ListNodePosi(T) search(T const &e) const { return search(e, _size, trailer); }
 	ListNodePosi(T) search(T const &e, int n, ListNodePosi(T) p) const;
 
-	int deduplicate(); // unsorted list
-	int uniquify(); // sorted list
+	int deduplicate(); // unsorted list O(n^2)
+	int uniquify(); // sorted list O(n)
 
 	// O(n), not recommended
 	T& operator[] (Rank r) const;
@@ -76,8 +78,8 @@ public:
 	void traverse(void (*visit)(T &e));
 	template <typename VST> void traverse(VST &);
 
-	void sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType = my_list::SELETIONSORT);
-	void sort(my_list::SortEnum sortType = my_list::SELETIONSORT) { sort(first(), _size, sortType); }
+	void sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType = my_list::SELECTIONSORT);
+	void sort(my_list::SortEnum sortType = my_list::SELECTIONSORT) { sort(first(), _size, sortType); }
 
 	void reverse();
 

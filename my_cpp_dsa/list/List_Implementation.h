@@ -145,7 +145,7 @@ ListNodePosi(T) List<T>::selectMax(ListNodePosi(T) p, int n) {
 }
 
 template <typename T>
-void List<T>::selectionSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
+void List<T>::selectionSort1(ListNodePosi(T) p, int n) { // from p to rank(p) + n
 	ListNodePosi(T) head = p->pred; ListNodePosi(T) tail = p;
 	for (int i = 0; i < n; i++) tail = tail->succ;
 	while (n > 1) {
@@ -154,6 +154,18 @@ void List<T>::selectionSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
 		tail = tail->pred; n--;
 	}
 }
+
+template <typename T>
+void List<T>::selectionSort2(ListNodePosi(T) p, int n) { // from p to rank(p) + n
+	ListNodePosi(T) head = p->pred; ListNodePosi(T) tail = p;
+	for (int i = 0; i < n; i++) tail = tail->succ;
+	while (n > 1) {
+		ListNodePosi(T) max = selectMax(head->succ, n);
+		std::swap(max->data, tail->pred->data); // slightly faster than insertB + remove
+		tail = tail->pred; n--;
+	}
+}
+
 
 template <typename T>
 void List<T>::insertSort(ListNodePosi(T) p, int n) { // from p to rank(p) + n
@@ -218,8 +230,8 @@ ListNodePosi(T) List<T>::max(ListNodePosi(T) p, int n) const {
 template <typename T>
 void List<T>::sort(ListNodePosi(T) p, int n, my_list::SortEnum sortType) {
 	switch (sortType){
-	case my_list::SELETIONSORT:
-		selectionSort(p, n); break;
+	case my_list::SELECTIONSORT:
+		selectionSort2(p, n); break;
 	case my_list::INSERTSORT:
 		insertSort(p, n); break;
 	case my_list::MERGESORT:
