@@ -2,6 +2,7 @@
 
 
 #include "ListNode.h"
+#include <stddef.h>
 
 namespace my_list {
 	enum SortEnum{
