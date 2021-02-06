@@ -1,4 +1,5 @@
 #pragma once
+#include "../vector/Vector.h"
 
 template <typename T>
 void Vector<T>::expand() {
