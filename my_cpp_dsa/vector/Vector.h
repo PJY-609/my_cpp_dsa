@@ -195,6 +195,7 @@ namespace my_vector {
 	}
 
 }
-#include "Vector_Implementation.h"
+
+#include "..\vector\Vector_Implementation.h"
 
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "../vector/Vector.h"
 
 template <typename T>
 void Vector<T>::expand() {
@@ -338,11 +337,13 @@ void Vector<T>::merge(Rank lo, Rank mi, Rank hi, my_vector::MergeEnum mergeType)
 
 template <typename T>
 void Vector<T>::mergeSort(Rank lo, Rank hi) {
-	if (hi - lo < 2) return; // single elem doesn't need to be merger (will cause error in merge())
+	if (hi - lo < 2) return; 
+	// single elem doesn't need to be merger (will cause error in merge())
 
 	Rank mi = (hi + lo) >> 1;
 	mergeSort(lo, mi); mergeSort(mi, hi);
-	if(_elem[mi] < _elem[mi - 1]) merge(lo, mi, hi); // skip merge if sub-vectors are alreay ordered 
+	if(_elem[mi] < _elem[mi - 1]) merge(lo, mi, hi); 
+	// skip merge if sub-vectors are alreay ordered 
 }
 
 template <typename T>

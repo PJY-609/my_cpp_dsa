@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "ListNode.h"
+#include "..\list\ListNode.h"
 #include <stddef.h>
 
 namespace my_list {
@@ -86,5 +86,5 @@ public:
 
 };
 
-#include "List_Implementation.h"
+#include "..\list\List_Implementation.h"
 

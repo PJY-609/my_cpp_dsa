@@ -41,6 +41,6 @@ __int64 facI(int n);
 double calcu(double a, char op, double b);
 double calcu(char op, double b);
 
-// these two fns do not work for certain reaons, therefore rpn conversion is not yet available
+// these two fns do not work for certain reasons, therefore rpn conversion is not yet available
 //void append(char*&rpn, double opnd);
 //void append(char*&rpn, char optr);

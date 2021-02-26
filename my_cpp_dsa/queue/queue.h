@@ -1,5 +1,5 @@
 #pragma once
-#include <../list/List.h>
+#include "../list/List.h"
 
 template <typename T> class Queue : public List<T> {
 public:

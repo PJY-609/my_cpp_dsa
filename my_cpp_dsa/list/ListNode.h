@@ -17,4 +17,4 @@ template <typename T> struct ListNode {
 	ListNodePosi(T) insertAsSucc(T const &e);
 };
 
-#include "ListNode_Implementation.h"
+#include "..\list\ListNode_Implementation.h"
