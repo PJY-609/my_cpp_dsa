@@ -64,3 +64,6 @@ public:
 };
 
 #include "../bintree/BinTree_Implementation.h"
+
+// BinTree reconstruction
+// [PreOrder/PostOrder] + InOrder
