@@ -3,10 +3,14 @@
 #include "../graph_matrix/Graph.h"
 #include "../vector/Vector.h"
 
-// Adjacency Maxtrix
+// Adjacency Matrix
 // pro: widely used for various types of graph
 // con: space-O(n^2), but v − e + f = 2 (Euler's formula) -> e <= O(n)
 
+
+// Adjacency Matrix vs Adjacency List
+// Matrix: frequent request of edge existence, frequent removal / insertion of edge, fixed graph scale, dense graph
+// List: frequent request of vertex's degree, flexible number of vertices, frequent traversal, sparse graph
 
 template <typename Tv> struct Vertex {
 	Tv data; int inDegree; int outDegree; VStatus status;

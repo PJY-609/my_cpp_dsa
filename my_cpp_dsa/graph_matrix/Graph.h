@@ -16,8 +16,15 @@ private:
 			}
 		}
 	}
+	
+	// for single connected component
+	// O(n^2) -> O(n + e)
+	void BFS(int v, int & clock); 
+	void DFS(int v, int & clock);
 
-	void BFS(int v, int & clock); // for single connected component
+	// Topology Sort for Directed Acyclic Graph (DAG) based on DFS (single round)
+	bool TSort(int v, int &clock, Stack<Tv> *S);
+
 
 public:
 	// Vertex
@@ -43,8 +50,20 @@ public:
 	virtual EType& type(int i, int j) = 0;
 	virtual Te& edge(int i, int j) = 0;
 	virtual int& weight(int i, int j) = 0;
+	
+	// for whole graph with multiple connected components
+	void bfs(int s); 
+	void dfs(int s);
 
-	void bfs(int s); // for whole graph with multiple connected components
+	// Topology Sort for Directed Acyclic Graph (DAG) based on DFS
+	Stack<Tv>* tSort(int s);
 };
 
 #include "../graph_matrix/Graph_Implementation.h"
+
+
+// Parenthesis Lemma
+// active(u) = [dTime(u), fTime(u)]
+// u is v's predeccessor: active(v) \subseteq active(u)
+// u is v's successor:    active(v) \supseteq active(u)
+// u is unrelated to v: active(v) \cap active(u) = \empty
