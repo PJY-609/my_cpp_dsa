@@ -25,6 +25,8 @@ private:
 	// Topology Sort for Directed Acyclic Graph (DAG) based on DFS (single round)
 	bool TSort(int v, int &clock, Stack<Tv> *S);
 
+	// Priority First Search for single connected component
+	template <typename PU> void PFS(int s, PU prioUpdater);
 
 public:
 	// Vertex
@@ -57,6 +59,38 @@ public:
 
 	// Topology Sort for Directed Acyclic Graph (DAG) based on DFS
 	Stack<Tv>* tSort(int s);
+
+	template <typename PU> void pfs(int s, PU prioUpdater);
+
+	// Minimum Spanning Tree
+	// total number trees (Cayley's formula) n vertices, n ^ (n - 2) trees
+	// The minimum crossing edge for ANY cut is part of the MST.
+	void prim(int s);
+
+	// Shortest Path Tree
+	// SPT != MST
+	// The crossing edge which constitues the shortest path to origin for ANY cut is part of the MST.
+	void dijkstra(int s);
+};
+
+template <typename Tv, typename Te>
+struct PrimPU {
+	virtual void operator()(Graph<Tv, Te> *g, int uk, int v) {
+		if (g->status(v) != UNDISCOVERED) return;
+		if (g->priority(v) > g->weight(uk, v)) {
+			g->priority(v) = g->weight(uk, v); g->parent(v) = uk;
+		}
+	}
+};
+
+template <typename Tv, typename Te>
+struct DijkPU {
+	virtual void operator()(Graph<Tv, Te> *g, int uk, int v) {
+		if (g->status(v) != UNDISCOVERED) return;
+		if (g->priority(v) > g->priority(uk) + g->weight(uk, v)) {
+			g->priority(v) = g->priority(uk) + g->weight(uk, v); g->parent(v) = uk;
+		}
+	}
 };
 
 #include "../graph_matrix/Graph_Implementation.h"
