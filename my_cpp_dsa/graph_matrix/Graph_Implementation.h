@@ -1,5 +1,7 @@
 #pragma once
 #include "../queue/queue.h"
+#include "../stack/stack.h"
+#include <stdlib.h>
 
 template <typename Tv, typename Te>
 void Graph<Tv, Te>::bfs(int s) { // 0 <= s < n
@@ -158,3 +160,45 @@ void Graph<Tv, Te>::dijkstra(int s) {
 		}
 	}
 }
+
+template <typename Tv, typename Te>
+void Graph<Tv, Te>::bcc(int s) {
+	reset(); int clock = 0; int v = s; Stack<int> S;
+	do {
+		if (status(v) == UNDISCOVERED) {
+			BCC(v, clock, S);
+			S.pop(); // starting point of the current connected component
+		}
+		
+	} while (s != (v = (++v) % n));
+}
+
+
+#define hca(v) (fTime(v)) // define highest connected ancestor
+template <typename Tv, typename Te>
+void Graph<Tv, Te>::BCC(int v, int &clock, Stack<int> &S) {
+	status(v) = DISCOVERED; hca(v) = dTime(v) = ++clock;
+	for (int u = firstNbr(v); u > -1; u = nextNbr(v, u)) {
+		switch (status(u))
+		{
+		case UNDISCOVERED:
+			parent(u) = v; type(v, u) = TREE; BCC(u, clock, S);
+			if (hca(u) < dTime(v)) {
+				hca(v) = __min(hca(v), hca(u));
+			}
+			else {
+				while(u != S.pop()) // further operations are needed
+			}
+			break;
+		case DISCOVERED:
+			type(v, u) = BACKWARD;
+			if (u != parent(v)) hca(u) = __min(hca(u), dTime(v));
+			break;
+		default: // VISITED
+			type(v, u) = dTime(u) > dTime(v) ? FORWARD : CROSS;
+			break;
+		}
+	}
+	status(v) = VISITED;
+}
+#undef hca

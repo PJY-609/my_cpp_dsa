@@ -18,7 +18,6 @@ private:
 	}
 	
 	// for single connected component
-	// O(n^2) -> O(n + e)
 	void BFS(int v, int & clock); 
 	void DFS(int v, int & clock);
 
@@ -27,6 +26,9 @@ private:
 
 	// Priority First Search for single connected component
 	template <typename PU> void PFS(int s, PU prioUpdater);
+
+	// for single component
+	void BCC(int v, int &clock, Stack<int>& S);
 
 public:
 	// Vertex
@@ -58,19 +60,29 @@ public:
 	void dfs(int s);
 
 	// Topology Sort for Directed Acyclic Graph (DAG) based on DFS
+	// O(n^2) -> O(n + e)
 	Stack<Tv>* tSort(int s);
 
+	// O(n^2) -> O(n + e)
 	template <typename PU> void pfs(int s, PU prioUpdater);
 
 	// Minimum Spanning Tree
 	// total number trees (Cayley's formula) n vertices, n ^ (n - 2) trees
 	// The minimum crossing edge for ANY cut is part of the MST.
+	// O(n^2) -> O(n + e)
 	void prim(int s);
 
 	// Shortest Path Tree
 	// SPT != MST
 	// The crossing edge which constitues the shortest path to origin for ANY cut is part of the MST.
+	// O(n^2) -> O(n + e)
 	void dijkstra(int s);
+
+	// Bi-Connected Components
+	// Articulation point (cut-vertex): iff removing it (and edges through it) disconnects the graph. 
+	// Bi-connectivity: Graph without articulation point (cut-vertex)
+	void bcc(int s);
+
 };
 
 template <typename Tv, typename Te>
