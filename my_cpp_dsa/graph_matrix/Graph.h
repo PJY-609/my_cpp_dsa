@@ -77,11 +77,18 @@ public:
 	// The crossing edge which constitues the shortest path to origin for ANY cut is part of the MST.
 	// O(n^2) -> O(n + e)
 	void dijkstra(int s);
+	// Floyd-Warshall's algorithm
+	// finding shortest paths in a directed weighted graph 
+	// with positive or negative edge weights (but with no negative cycles)
 
 	// Bi-Connected Components
 	// Articulation point (cut-vertex): iff removing it (and edges through it) disconnects the graph. 
 	// Bi-connectivity: Graph without articulation point (cut-vertex)
 	void bcc(int s);
+	// Strong-Connected Components
+	// Kosraju's algorithm
+	// Tarjan's algorithm
+
 
 };
 
@@ -113,3 +120,4 @@ struct DijkPU {
 // u is v's predeccessor: active(v) \subseteq active(u)
 // u is v's successor:    active(v) \supseteq active(u)
 // u is unrelated to v: active(v) \cap active(u) = \empty
+
