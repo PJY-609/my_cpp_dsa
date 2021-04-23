@@ -135,7 +135,7 @@ void Graph<Tv, Te>::prim(int s) {
 			}
 		}
 		for (int shortest = INT_MAX, j = 0; j < n; j++) {
-			if (status(j) == UNDISCOVERED && shortest > priority(j) {
+			if (status(j) == UNDISCOVERED && shortest > priority(j)) {
 				shortest = priority(j); s = j;
 			}
 		}
@@ -177,7 +177,7 @@ void Graph<Tv, Te>::bcc(int s) {
 #define hca(v) (fTime(v)) // define highest connected ancestor
 template <typename Tv, typename Te>
 void Graph<Tv, Te>::BCC(int v, int &clock, Stack<int> &S) {
-	status(v) = DISCOVERED; hca(v) = dTime(v) = ++clock;
+	status(v) = DISCOVERED; hca(v) = dTime(v) = ++clock; S.push(v);
 	for (int u = firstNbr(v); u > -1; u = nextNbr(v, u)) {
 		switch (status(u))
 		{
@@ -187,7 +187,7 @@ void Graph<Tv, Te>::BCC(int v, int &clock, Stack<int> &S) {
 				hca(v) = __min(hca(v), hca(u));
 			}
 			else {
-				while(u != S.pop()) // further operations are needed
+				while (u != S.pop()); // further operations are needed
 			}
 			break;
 		case DISCOVERED:

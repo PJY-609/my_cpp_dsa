@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include "../graph_matrix/Graph.h"
-#include "../vector/Vector.h"
-
+#include <vector>
+#include <stdio.h>
 // Adjacency Matrix
 // pro: widely used for various types of graph
 // con: space-O(n^2), but v − e + f = 2 (Euler's formula) -> e <= O(n)
@@ -30,8 +30,8 @@ template <typename Te> struct Edge {
 template <typename Tv, typename Te>
 class GraphMatrix: public Graph<Tv, Te> {
 private:
-	Vector<Vertex<Tv>> V;
-	Vector<Vector<Edge<Te> *>> E;
+	std::vector<Vertex<Tv>> V;
+	std::vector<std::vector<Edge<Te> *>> E;
 
 public:
 	GraphMatrix() { n = e = 0; }
@@ -43,10 +43,11 @@ public:
 		}
 	}
 
-	virtual int insert(Tv const &vertex) {
-		for (int j = 0; j < n; j++) E[j].insert(NULL); // create position for potential link with the new vertex
-		E.insert(Vector<Edge<Te>*>(n, n, (Edge<Te>*) NULL)); // create new edge link relation list for the new vertex
-		n++; return V.insert(vertex);
+	virtual int insert(Tv const& vertex) {
+		for (int j = 0; j < n; j++) E[j].push_back(NULL); n++; // create position for potential link with the new vertex
+		E.push_back(std::vector<Edge<Te>*>(n, (Edge<Te>*) NULL)); // create new edge link relation list for the new vertex
+		V.push_back(Vertex<Tv>(vertex));
+		return V.size() - 1;
 	}
 
 	virtual Tv remove(int i) { // remove vertex i and involved edges
@@ -55,12 +56,14 @@ public:
 				delete E[i][j]; V[j].inDegree--; e--;
 			}
 		}
-		E.remove(i); n--; 
-		Tv vBak = vertex(i); V.remove(i);
+		E.erase(E.begin() + i); n--;
+		Tv vBak = vertex(i); 
+		V.erase(V.begin() + i);
 		for (int j = 0; j < n; j++) {
-			if (Edge<Te>* x = E[j].remove(i)) {
-				delete x; V[j].outDegree--; e--;
+			if (E[j][i]) {
+				delete E[j][i]; V[j].outDegree--; e--;
 			}
+			E[j].erase(E[j].begin() + i);
 		}
 		return vBak;
 	}
@@ -81,8 +84,8 @@ public:
 	} 
 
 	virtual bool exists(int i, int j) // check if edge ij exists
-	{
-		return (0 < i) && (i < n) && (0 < j) && (j < n) && (E[i][j] != NULL);
+	{	
+		return (0 <= i) && (i < n) && (0 <= j) && (j < n) && E[i][j] != NULL;
 	}
 
 	virtual void insert(Te const &edge, int w, int i, int j) {
@@ -92,8 +95,8 @@ public:
 	}
 
 	virtual Te remove(int i, int j) {
-		Te eBak = edge(i, j); delete E[i][j]; E[i][j] = NULL;
-		e--; V[i].outDegree--; V[j].inDegree--;
+		Te eBak = edge(i, j); delete E[i][j]; E[i][j] = NULL; 
+		e--; V[i].outDegree--; V[j].inDegree--; 
 		return eBak;
 	}
 
@@ -101,3 +104,5 @@ public:
 	virtual Te& edge(int i, int j) { return E[i][j]->data; }
 	virtual int& weight(int i, int j) { return E[i][j]->weight; }
 };
+
+

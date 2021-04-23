@@ -1,6 +1,6 @@
 #pragma once
 #include <limits.h>
-
+#include "../stack/stack.h"
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
 typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EType;
 
@@ -93,8 +93,31 @@ public:
 };
 
 template <typename Tv, typename Te>
+struct BfsPU {
+	virtual void operator()(Graph<Tv, Te> * g, int uk, int v) {
+		if (g->status(v) != UNDISCOVERED) return;
+		if (g->priority(v) > g->priority(uk) + 1) {
+			g->priority(v) = g->priority(uk) + 1; // define distance to start point as priority 
+			g->parent(v) = uk;
+		}
+	}
+};
+
+template <typename Tv, typename Te>
+struct DfsPU {
+	virtual void operator()(Graph<Tv, Te>* g, int uk, int v) {
+		if (g->status(v) != UNDISCOVERED) return;
+		if (g->priority(v) > g->priority(uk) - 1) {
+			g->priority(v) = g->priority(uk) - 1; // define inverse distance to start point as priority 
+			g->parent(v) = uk;
+			return; // update one vertex only
+		}
+	}
+};
+
+template <typename Tv, typename Te>
 struct PrimPU {
-	virtual void operator()(Graph<Tv, Te> *g, int uk, int v) {
+	virtual void operator()(Graph<Tv, Te> * g, int uk, int v) {
 		if (g->status(v) != UNDISCOVERED) return;
 		if (g->priority(v) > g->weight(uk, v)) {
 			g->priority(v) = g->weight(uk, v); g->parent(v) = uk;
@@ -104,7 +127,7 @@ struct PrimPU {
 
 template <typename Tv, typename Te>
 struct DijkPU {
-	virtual void operator()(Graph<Tv, Te> *g, int uk, int v) {
+	virtual void operator()(Graph<Tv, Te> * g, int uk, int v) {
 		if (g->status(v) != UNDISCOVERED) return;
 		if (g->priority(v) > g->priority(uk) + g->weight(uk, v)) {
 			g->priority(v) = g->priority(uk) + g->weight(uk, v); g->parent(v) = uk;
